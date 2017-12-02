@@ -9,18 +9,30 @@ namespace Assets.Scripts
         public float JumpForce;
 
         private Rigidbody2D _playeRigidbody;
+
+        public bool IsGrounded;
+
+        public LayerMask WhatIsGround;
+
+        private Collider2D _playCollider; 
         // Use this for initialization
         void Start ()
         {
             _playeRigidbody = GetComponent<Rigidbody2D>();
+            _playCollider = GetComponent<Collider2D>();
         }
 	
         // Update is called once per frame
-        void Update () {
+        void Update ()
+        {
+            IsGrounded = Physics2D.IsTouchingLayers(_playCollider, WhatIsGround);
 		    _playeRigidbody.velocity=new Vector2(MoveSpeed,_playeRigidbody.velocity.y);
             if (Input.GetKeyDown(KeyCode.Space)||Input.GetKeyDown(0))
             {
-                _playeRigidbody.velocity=new Vector2(_playeRigidbody.velocity.x,JumpForce);
+                if (IsGrounded)
+                {
+                    _playeRigidbody.velocity = new Vector2(_playeRigidbody.velocity.x, JumpForce);
+                }
             }
         }
     }
