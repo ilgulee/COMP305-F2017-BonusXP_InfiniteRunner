@@ -14,12 +14,15 @@ namespace Assets.Scripts
 
         public LayerMask WhatIsGround;
 
-        private Collider2D _playCollider; 
+        private Collider2D _playCollider;
+
+        private Animator _playerAnimator;
         // Use this for initialization
         void Start ()
         {
             _playeRigidbody = GetComponent<Rigidbody2D>();
             _playCollider = GetComponent<Collider2D>();
+            _playerAnimator = GetComponent<Animator>();
         }
 	
         // Update is called once per frame
@@ -34,6 +37,9 @@ namespace Assets.Scripts
                     _playeRigidbody.velocity = new Vector2(_playeRigidbody.velocity.x, JumpForce);
                 }
             }
+
+            _playerAnimator.SetFloat("Speed",_playeRigidbody.velocity.x);
+            _playerAnimator.SetBool("Grounded",IsGrounded);
         }
     }
 }
